@@ -17,3 +17,19 @@ To rebuild everything from scratch run:
 docker-compose down -v
 docker-compose up --build
 ```
+
+## Vulnerabilities
+
+### Injection (A03)
+XSS on the comments page.
+SQL injection on the comments page.
+
+### Security Misconfiguration (A05)
+Verbose error message after exceeding SQL text limit on comments page.
+
+### Broken Access Control (A01)
+phpmyadmin on port 8080
+
+### Identification and Authentication Failures (A07)
+user login page with no login cooldown, susceptible to bruteforce/dictionary attacks.
+
