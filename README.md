@@ -15,6 +15,7 @@ docker-compose up
 To rebuild everything from scratch run:
 ```bash
 docker-compose down -v
+docker system prune -a   # Remove all cached images and containers
 docker-compose up --build
 ```
 
@@ -33,3 +34,5 @@ phpmyadmin on port 8080
 ### Identification and Authentication Failures (A07)
 user login page with no login cooldown, susceptible to bruteforce/dictionary attacks.
 
+### SSRF Vulnerability (A10)
+The url fetcher can be used to access server files such file:///var/secret/secret.txt

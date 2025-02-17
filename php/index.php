@@ -10,7 +10,7 @@
     <main>
         <ul>
             <li><a href="./comments/index.php">Comments</a></li>
-            <li><a href="./posts/index.php">phpmyadmin</a></li>
+            <li><a href="./url-fetcher/index.php">Url Fetcher</a></li>
             <li><a href="./users/index.php">Users</a></li>
             <li><a href="./about.php">About</a></li>
         </ul>
