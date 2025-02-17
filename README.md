@@ -15,7 +15,6 @@ docker-compose up
 To rebuild everything from scratch run:
 ```bash
 docker-compose down -v
-docker system prune -a   # Remove all cached images and containers
 docker-compose up --build
 ```
 
