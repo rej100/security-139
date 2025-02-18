@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login/login.php");
+    header("Location: ../login/index.php");
     exit();
 }
 ?>
@@ -15,6 +15,6 @@ if (!isset($_SESSION['username'])) {
     <h2>My Profile</h2>
     <p>Username: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
     <p>Bio: <?php echo htmlspecialchars($_SESSION['bio']); ?></p>
-    <p><a href="../logout/logout.php">Logout</a></p>
+    <p><a href="../logout/index.php">Logout</a></p>
 </body>
 </html>

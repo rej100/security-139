@@ -22,7 +22,7 @@ if (isset($_POST['login'])) {
         $user = mysqli_fetch_assoc($result);
         $_SESSION['username']   = $user['username'];
         $_SESSION['bio'] = $user['bio'];
-        header("Location: ../myprofile/myprofile.php");
+        header("Location: ../myprofile/index.php");
         exit();
     } else {
         echo "Invalid credentials.";
@@ -44,6 +44,9 @@ if (isset($_POST['login'])) {
         <input type="text" name="username" required><br>
         <label for="password">Password:</label><br>
         <input type="password" name="password" required><br><br>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Forgot Your Password?</a>
+        <br>
+        <br>
         <input type="submit" name="login" value="Login">
     </form>
 </body>

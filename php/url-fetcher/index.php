@@ -24,13 +24,10 @@ if (isset($_GET['url'])) {
 </head>
 <body>
     <h1>URL Fetcher</h1>
-    <p>This page is vulnerable to Server Side Request Forgery (SSRF). You can supply any URL to be fetched by the server.</p>
     <form method="get">
         <label for="url">Enter URL to fetch:</label>
         <input type="text" id="url" name="url" placeholder="e.g. http://example.com" required>
         <button type="submit">Fetch</button>
     </form>
-    <p><strong>Demo Tip:</strong> To retrieve the secret file on the server, try entering:</p>
-    <pre>file:///var/secret/secret.txt</pre>
 </body>
 </html>
