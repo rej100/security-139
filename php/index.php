@@ -11,8 +11,9 @@
         <ul>
             <li><a href="./comments/index.php">Comments</a></li>
             <li><a href="./url-fetcher/index.php">Url Fetcher</a></li>
-            <li><a href="./users/index.php">Users</a></li>
-            <li><a href="./about.php">About</a></li>
+            <li><a href="./login/login.php">Login</a></li>
+            <li><a href="./register/register.php">Register</a></li>
+            <li><a href="./myprofile/myprofile.php">My Profile</a></li>
         </ul>
     </main>
 </body>
