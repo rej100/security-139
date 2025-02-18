@@ -1,23 +1,28 @@
 <?php
-    if (isset($_POST['submit'])) {
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login/index.php");
+    exit();
+}
 
-        $servername = "db"; // 'db' is the service name in docker-compose.yml
-        $username = "user";
-        $password = "user";
-        $database = "comp_sec_db";
+if (isset($_POST['submit'])) {
+    $servername   = "db"; // 'db' is the service name in docker-compose.yml
+    $db_username  = "user";
+    $db_password  = "user";
+    $database     = "comp_sec_db";
 
-        $link=mysqli_connect($servername, $username, $password, $database);
-        mysqli_query($link, "SET NAMES UTF8");
+    $link = mysqli_connect($servername, $db_username, $db_password, $database);
+    mysqli_query($link, "SET NAMES UTF8");
 
-        $content = $_POST['comment'];
+    $content = $_POST['comment'];
+    $user    = $_SESSION['username'];
 
-        $query = "INSERT INTO comments (content) VALUES ('$content')";
-        mysqli_query($link, $query);
+    $query = "INSERT INTO comments (content, username) VALUES ('$content', '$user')";
+    mysqli_query($link, $query);
 
-        header("Location: " . $_SERVER['PHP_SELF']);
-        mysqli_free_result($result);
-        mysqli_close($link);
-    }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    mysqli_close($link);
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,24 +39,23 @@
     </header>
     <main>
         <?php
+            $servername   = "db";
+            $db_username  = "user";
+            $db_password  = "user";
+            $database     = "comp_sec_db";
 
-            $servername = "db"; // 'db' is the service name in docker-compose.yml
-            $username = "user";
-            $password = "user";
-            $database = "comp_sec_db";
-
-            $link=mysqli_connect($servername, $username, $password, $database);
-
+            $link = mysqli_connect($servername, $db_username, $db_password, $database);
             mysqli_query($link, "SET NAMES UTF8");
-            $res=mysqli_query($link, "SELECT * FROM comments");
-            while($row=mysqli_fetch_assoc($res))
+            $res = mysqli_query($link, "SELECT * FROM comments");
+            while($row = mysqli_fetch_assoc($res))
             {
+                // Escape output to prevent XSS
+                $user    = $row["username"];
                 $content = $row["content"];
-                echo "<p>".$content."<br /></p>";
+                echo "<p><strong>$user</strong>: $content<br /></p>";
             }
-
-			mysqli_free_result($res);
-			mysqli_close($link);
+            mysqli_free_result($res);
+            mysqli_close($link);
         ?>
     </main>
     <footer>

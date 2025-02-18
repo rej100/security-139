@@ -3,7 +3,8 @@ USE comp_sec_db;
 
 CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    content VARCHAR(255) NOT NULL
+    content VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -13,10 +14,10 @@ CREATE TABLE IF NOT EXISTS users (
     bio VARCHAR(255) NOT NULL
 );
 
-INSERT INTO comments (content) VALUES
-    ('This is the first example comment.'),
-    ('Another example comment for testing.'),
-    ('Final test comment to check data insertion.');
+INSERT INTO comments (content, username) VALUES
+    ('This is the first example comment.', 'alice'),
+    ('Another example comment for testing.', 'bob'),
+    ('Final test comment to check data insertion.', 'charlie');
 
 -- Insert test users with simple usernames and passwords
 INSERT INTO users (username, password, bio) VALUES
