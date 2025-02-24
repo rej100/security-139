@@ -102,3 +102,12 @@ To improve user privacy and mitigate the insecure design vulnerability where a u
   - Comments are displayed showing the nickname rather than the login username.
 
 These modifications help prevent exposing sensitive login credentials while still allowing users to have a public persona in the comments section.
+
+#### 7. SSRF Vulnerability (A10)
+##### 7.1 Original Issue
+The URL Fetcher previously allowed users to supply any URL—including local files (e.g., `file:///var/secret/secret.txt`)—making it vulnerable to SSRF attacks.
+
+##### 7.2 Patch
+- **Input Validation:** The URL is now validated with `filter_var()` and restricted to `http` and `https` schemes.
+- **Local IP Filtering:** The host is parsed from the URL and resolved to an IP address. Requests to local or reserved IP ranges are blocked using PHP’s IP validation flags.
+- **Timeout Configuration:** A timeout is set on the HTTP request to prevent long-running requests.
