@@ -72,3 +72,27 @@ docker-compose up --build
 2. In the text field, enter `file:///var/secret/secret.txt`.
 3. Press the "Fetch" button.
 4. The contents of the secret file stored on the server will be displayed.
+
+## Vulnerability Patches
+
+
+### 4. Insecure Design (A04)
+#### 4.1 Usernames Used for Authentication are Part of Comments
+Separation of Username and Nickname for Comments
+To improve user privacy and mitigate the insecure design vulnerability where a user's login username was exposed in public comments, the following changes have been implemented:
+- **Database Changes:**
+  - A new `nickname` column has been added to the `users` table.
+  - The `comments` table now uses a `nickname` field instead of the `username` field.
+  
+- **User Registration:**
+  - The registration form now includes a field for users to enter a nickname.
+  - The submitted nickname is stored alongside the username, password, and bio in the database.
+
+- **Authentication:**
+  - After login, the user's nickname is stored in the session and used for displaying comments.
+
+- **Comments Display:**
+  - New comments are inserted with the user's nickname.
+  - Comments are displayed showing the nickname rather than the login username.
+
+These modifications help prevent exposing sensitive login credentials while still allowing users to have a public persona in the comments section.

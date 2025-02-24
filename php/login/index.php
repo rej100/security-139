@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (isset($_POST['login'])) {
-    $servername   = "db";
+    $servername   = "db"; 
     $db_username  = "user";
     $db_password  = "user";
     $database     = "comp_sec_db";
-    
+
     $conn = mysqli_connect($servername, $db_username, $db_password, $database);
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -20,7 +20,8 @@ if (isset($_POST['login'])) {
     
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $_SESSION['username']   = $user['username'];
+        $_SESSION['username'] = $user['username'];  // For authentication purposes
+        $_SESSION['nickname'] = $user['nickname'];  // For comments display
         $_SESSION['bio'] = $user['bio'];
         header("Location: ../myprofile/index.php");
         exit();

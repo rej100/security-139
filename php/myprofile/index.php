@@ -14,6 +14,7 @@ if (!isset($_SESSION['username'])) {
 <body>
     <h2>My Profile</h2>
     <p>Username: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+    <p>Nickname: <?php echo htmlspecialchars($_SESSION['nickname']); ?></p>
     <p>Bio: <?php echo htmlspecialchars($_SESSION['bio']); ?></p>
     <p><a href="../comments/index.php">Comments</a></p>
     <p><a href="../logout/index.php">Logout</a></p>

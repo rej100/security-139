@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (isset($_POST['submit'])) {
-    $servername   = "db"; // 'db' is the service name in docker-compose.yml
+    $servername   = "db"; 
     $db_username  = "user";
     $db_password  = "user";
     $database     = "comp_sec_db";
@@ -15,9 +15,10 @@ if (isset($_POST['submit'])) {
     mysqli_query($link, "SET NAMES UTF8");
 
     $content = $_POST['comment'];
-    $user    = $_SESSION['username'];
+    // Use nickname instead of username for comments
+    $nickname = $_SESSION['nickname'];
 
-    $query = "INSERT INTO comments (content, username) VALUES ('$content', '$user')";
+    $query = "INSERT INTO comments (content, nickname) VALUES ('$content', '$nickname')";
     mysqli_query($link, $query);
 
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -50,9 +51,9 @@ if (isset($_POST['submit'])) {
             while($row = mysqli_fetch_assoc($res))
             {
                 // Escape output to prevent XSS
-                $user    = $row["username"];
+                $nickname = $row["nickname"];
                 $content = $row["content"];
-                echo "<p><strong>$user</strong>: $content<br /></p>";
+                echo "<p><strong>$nickname</strong>: $content<br /></p>";
             }
             mysqli_free_result($res);
             mysqli_close($link);
