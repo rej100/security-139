@@ -26,3 +26,10 @@ INSERT INTO comments (content, nickname) VALUES
     ('This is the first example comment.', 'AliceNick'),
     ('Another example comment for testing.', 'Bobby'),
     ('Final test comment to check data insertion.', 'CharlieD');
+
+-- Create table to track login attempts by IP address to prevent brute-force attacks
+CREATE TABLE IF NOT EXISTS login_attempts (
+    ip_address VARCHAR(45) PRIMARY KEY,
+    attempts INT NOT NULL DEFAULT 0,
+    last_attempt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

@@ -102,3 +102,13 @@ To improve user privacy and mitigate the insecure design vulnerability where a u
   - Comments are displayed showing the nickname rather than the login username.
 
 These modifications help prevent exposing sensitive login credentials while still allowing users to have a public persona in the comments section.
+
+### 6. Identification and Authentication Failures (A07)
+#### 6.1 User Login Page With No Login Cooldown Susceptible to Bruteforce/Dictionary Attacks.
+- **Issue:** The login page previously allowed unlimited login attempts, making it vulnerable to brute-force and dictionary attacks.
+- **Patch:**
+  - A new table `login_attempts` was added to `mysql-init/init.sql` to record the number of failed login attempts per IP address along with the timestamp of the last attempt.
+  - The login script (`php/login/index.php`) was updated to check this table. If an IP address exceeds 5 failed attempts within a 15‑minute window, further login attempts are temporarily blocked.
+  - On a successful login, any stored failed attempts for that IP are cleared.
+  
+These changes significantly mitigate the risk of brute-force attacks by enforcing a cooldown period for repeated login failures.
