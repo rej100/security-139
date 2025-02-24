@@ -1,5 +1,5 @@
 # security-139
-This is the vulnerable version of the easy mode of the project for the computer security course.
+This is SECURE
 
 ## How to run
 To run this project clone the repository and navigate to the directory. For a first time set up run:
