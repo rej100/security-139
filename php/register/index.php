@@ -7,7 +7,7 @@ if (isset($_POST['register'])) {
 
     $conn = mysqli_connect($servername, $db_username, $db_password, $database);
     if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+        die("Connection failed");
     }
     
     // Get form data including nickname
@@ -15,26 +15,38 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $bio      = $_POST['bio'];
     $nickname = $_POST['nickname'];
+
+    // Validate comment length.
+    if (strlen($username) > 255 && strlen($password) > 255 && strlen($bio) > 255 && strlen($nickname) > 255) {
+        echo "Fields can't exceed maximum allowed length of 255 characters.";
+        mysqli_close($link);
+        exit;
+    }
     
     // Hash the password before storing it
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Check if the username already exists
-    $checkQuery = "SELECT * FROM users WHERE username='$username'";
-    $result = mysqli_query($conn, $checkQuery);
+    $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
     
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_stmt_num_rows($stmt) > 0) {
         echo "Error: Username already exists.";
     } else {
         // Insert user with hashed password
-        $query = "INSERT INTO users (username, password, bio, nickname) VALUES ('$username', '$hashedPassword', '$bio', '$nickname')";
-        if (mysqli_query($conn, $query)) {
+        $stmt = mysqli_prepare($conn, "INSERT INTO users (username, password, bio, nickname) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "ssss", $username, $hashedPassword, $bio, $nickname);
+        
+        if (mysqli_stmt_execute($stmt)) {
             echo "Registration successful. <a href='../login/index.php'>Click here to login</a>.";
         } else {
-            echo "Error: " . mysqli_error($conn);
+            echo "Error: Failed to register";
         }
     }
     
+    mysqli_stmt_close($stmt);
     mysqli_close($conn);
 }
 ?>

@@ -54,6 +54,13 @@ if (isset($_POST['login'])) {
     
     $username = $_POST['username'];
     $password = $_POST['password'];
+
+    // Validate comment length.
+    if (strlen($username) > 255 && strlen($password) > 255) {
+        echo "Fields can't exceed maximum allowed length of 255 characters.";
+        mysqli_close($link);
+        exit;
+    }
     
     // Select user based on username only
     $user_query = "SELECT * FROM users WHERE username = ?";

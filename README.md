@@ -107,22 +107,22 @@ These modifications help prevent exposing sensitive login credentials while stil
 #### 6.1 User Login Page With No Login Cooldown Susceptible to Bruteforce/Dictionary Attacks.
 - **Issue:** The login page previously allowed unlimited login attempts, making it vulnerable to brute-force and dictionary attacks.
 - **Patch:**
-  - A new table `login_attempts` was added to `mysql-init/init.sql` to record the number of failed login attempts per IP address along with the timestamp of the last attempt.
-  - The login script (`php/login/index.php`) was updated to check this table. If an IP address exceeds 5 failed attempts within a 15‑minute window, further login attempts are temporarily blocked.
-  - On a successful login, any stored failed attempts for that IP are cleared.
+  - A new table `login_attempts` was added to record the number of failed login attempts per IP address along with the timestamp of the last attempt.
+  - The login script was updated to check this table. If an IP address exceeds 5 failed attempts within a 15‑minute window, further login attempts are temporarily blocked.
+  - After 15 minutes, any stored failed attempts for that IP are cleared.
   
 These changes significantly mitigate the risk of brute-force attacks by enforcing a cooldown period for repeated login failures.
 
-#### 7. SSRF Vulnerability (A10)
-##### 7.1 Original Issue
+### 7. SSRF Vulnerability (A10)
+#### 7.1 Original Issue
 The URL Fetcher previously allowed users to supply any URL—including local files (e.g., `file:///var/secret/secret.txt`)—making it vulnerable to SSRF attacks.
 
-##### 7.2 Patch
+#### 7.2 Patch
 - **Input Validation:** The URL is now validated with `filter_var()` and restricted to `http` and `https` schemes.
 - **Local IP Filtering:** The host is parsed from the URL and resolved to an IP address. Requests to local or reserved IP ranges are blocked using PHP’s IP validation flags.
 - **Timeout Configuration:** A timeout is set on the HTTP request to prevent long-running requests.
 
-#### 8. Comments Page Vulnerability Fixes
+### 8. Comments Page Vulnerability Fixes
 - **SQL Injection Prevention:**  
   The comments insertion now uses prepared statements to safely bind user input.
   
@@ -137,3 +137,25 @@ The URL Fetcher previously allowed users to supply any URL—including local fil
   
 - **Error Handling:**  
   Detailed error messages are suppressed to avoid revealing sensitive internal details.
+
+### 9. Register Page Vulnerability Fixes
+- **SQL Injection Prevention:**  
+  The comments insertion now uses prepared statements to safely bind user input.
+- **Input Length Validation:**  
+  A check has been added to ensure comments do not exceed 255 characters. If they do, a generic error message is displayed.
+- **Error Handling:**  
+  Detailed error messages are suppressed to avoid revealing sensitive internal details.
+
+### 10. Login Page Vulnerability Fixes
+- **SQL Injection Prevention:**  
+  The comments insertion now uses prepared statements to safely bind user input.
+- **Input Length Validation:**  
+  A check has been added to ensure comments do not exceed 255 characters. If they do, a generic error message is displayed.
+- **Error Handling:**  
+  Detailed error messages are suppressed to avoid revealing sensitive internal details.
+- **Bruteforce/Dictionary Attack Prevention**
+  See section 6.1
+
+### 11. MyProfile Page Vulnerability Fixes
+- **Cross-Site Scripting (XSS) Prevention:**  
+  Page content is generated using `htmlspecialchars()` to ensure any HTML or script tags are rendered harmless.
