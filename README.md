@@ -112,3 +112,28 @@ These modifications help prevent exposing sensitive login credentials while stil
   - On a successful login, any stored failed attempts for that IP are cleared.
   
 These changes significantly mitigate the risk of brute-force attacks by enforcing a cooldown period for repeated login failures.
+
+#### 7. SSRF Vulnerability (A10)
+##### 7.1 Original Issue
+The URL Fetcher previously allowed users to supply any URL—including local files (e.g., `file:///var/secret/secret.txt`)—making it vulnerable to SSRF attacks.
+
+##### 7.2 Patch
+- **Input Validation:** The URL is now validated with `filter_var()` and restricted to `http` and `https` schemes.
+- **Local IP Filtering:** The host is parsed from the URL and resolved to an IP address. Requests to local or reserved IP ranges are blocked using PHP’s IP validation flags.
+- **Timeout Configuration:** A timeout is set on the HTTP request to prevent long-running requests.
+
+#### 8. Comments Page Vulnerability Fixes
+- **SQL Injection Prevention:**  
+  The comments insertion now uses prepared statements to safely bind user input.
+  
+- **Cross-Site Scripting (XSS) Prevention:**  
+  Comments are now output using `htmlspecialchars()` to ensure any HTML or script tags are rendered harmless.
+  
+- **Input Length Validation:**  
+  A check has been added to ensure comments do not exceed 255 characters. If they do, a generic error message is displayed.
+  
+- **CSRF Protection:**  
+  A CSRF token is implemented on the form to prevent unauthorized submissions.
+  
+- **Error Handling:**  
+  Detailed error messages are suppressed to avoid revealing sensitive internal details.
