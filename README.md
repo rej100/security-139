@@ -75,6 +75,12 @@ docker-compose up --build
 
 ## Vulnerability Patches
 
+### 2. Cryptographic Failures (A02)
+#### 2.1 Password Storage
+- **Issue:** Previously, user passwords were stored in plaintext, making them vulnerable to compromise.
+- **Patch:** 
+  - Passwords are now hashed using PHP's `password_hash()` function during registration. During login, the submitted password is verified against the stored hash using `password_verify()`. This change ensures that plaintext passwords are never stored in the database.
+  - **Dummy Accounts Update:** The test users in the database initialization script (mysql-init/init.sql) have been updated to use hashed passwords so that they are compatible with the new login mechanism.
 
 ### 4. Insecure Design (A04)
 #### 4.1 Usernames Used for Authentication are Part of Comments

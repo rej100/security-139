@@ -16,6 +16,9 @@ if (isset($_POST['register'])) {
     $bio      = $_POST['bio'];
     $nickname = $_POST['nickname'];
     
+    // Hash the password before storing it
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     // Check if the username already exists
     $checkQuery = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $checkQuery);
@@ -23,8 +26,8 @@ if (isset($_POST['register'])) {
     if (mysqli_num_rows($result) > 0) {
         echo "Error: Username already exists.";
     } else {
-        // Insert user with nickname
-        $query = "INSERT INTO users (username, password, bio, nickname) VALUES ('$username', '$password', '$bio', '$nickname')";
+        // Insert user with hashed password
+        $query = "INSERT INTO users (username, password, bio, nickname) VALUES ('$username', '$hashedPassword', '$bio', '$nickname')";
         if (mysqli_query($conn, $query)) {
             echo "Registration successful. <a href='../login/index.php'>Click here to login</a>.";
         } else {

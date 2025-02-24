@@ -7,12 +7,12 @@ CREATE TABLE IF NOT EXISTS users (
     nickname VARCHAR(255) NOT NULL
 );
 
--- Insert test users with a nickname for comments
+-- Insert test users with a nickname for comments and hashed passwords
+-- The sample hashed values below were generated using PHP's password_hash()
 INSERT INTO users (username, password, bio, nickname) VALUES
-    ('alice', 'password123', 'Test user Alice.', 'AliceNick'),
-    ('bob', 'qwerty', 'Test user Bob.', 'Bobby'),
-    ('charlie', 'letmein', 'Test user Charlie.', 'CharlieD');
-
+    ('alice', '$2y$10$mnjjaXUos.U23UtgiQNhnetXan3F5tjekJ/W0jlqF7OHB7Heyqgvm', 'Test user Alice.', 'AliceNick'), -- password123
+    ('bob', '$2y$10$kR1DYsRJIINXviDNNQOmuOKWIClcKjdNcA2MHyacEXmOEe0ELHnS6', 'Test user Bob.', 'Bobby'), -- qwerty
+    ('charlie', '$2y$10$T6QsZs5lpOaJnavfZKkl8.F/Q95jYkv4R0dRFZiIdp2vOs5KwLjZq', 'Test user Charlie.', 'CharlieD'); -- letmein
 
 -- Create comments table with nickname instead of username
 CREATE TABLE IF NOT EXISTS comments (

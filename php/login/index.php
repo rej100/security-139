@@ -14,17 +14,22 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     
-    // Select user with matching credentials
-    $query  = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    // Select user based on username only
+    $query  = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
     
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $_SESSION['username'] = $user['username'];  // For authentication purposes
-        $_SESSION['nickname'] = $user['nickname'];  // For comments display
-        $_SESSION['bio'] = $user['bio'];
-        header("Location: ../myprofile/index.php");
-        exit();
+        // Verify the provided password against the stored hash
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $user['username'];  // For authentication purposes
+            $_SESSION['nickname'] = $user['nickname'];    // For comments display
+            $_SESSION['bio'] = $user['bio'];
+            header("Location: ../myprofile/index.php");
+            exit();
+        } else {
+            echo "Invalid credentials.";
+        }
     } else {
         echo "Invalid credentials.";
     }
