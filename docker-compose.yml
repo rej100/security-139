@@ -21,16 +21,5 @@ services:
       - db_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: db
-      # Optionally, you can specify these if you want to auto-fill the login fields:
-      # PMA_USER: user
-      # PMA_PASSWORD: user
-
 volumes:
   db_data:
