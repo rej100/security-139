@@ -58,7 +58,7 @@ if (isset($_POST['login'])) {
     // Validate comment length.
     if (strlen($username) > 255 && strlen($password) > 255) {
         echo "Fields can't exceed maximum allowed length of 255 characters.";
-        mysqli_close($link);
+        mysqli_close($conn);
         exit;
     }
     

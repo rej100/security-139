@@ -17,9 +17,15 @@ if (isset($_POST['register'])) {
     $nickname = $_POST['nickname'];
 
     // Validate comment length.
-    if (strlen($username) > 255 && strlen($password) > 255 && strlen($bio) > 255 && strlen($nickname) > 255) {
+    if (strlen($username) > 255 || strlen($password) > 255 || strlen($bio) > 255 || strlen($nickname) > 255 ) {
         echo "Fields can't exceed maximum allowed length of 255 characters.";
-        mysqli_close($link);
+        mysqli_close($conn);
+        exit;
+    }
+
+    if (strlen($username) < 5 || strlen($password) < 5 || strlen($bio) < 5 || strlen($nickname) < 5 ) {
+        echo "Fields can't be below minimum allowed length of 5 characters.";
+        mysqli_close($conn);
         exit;
     }
     

@@ -33,8 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $nickname = $_SESSION['nickname'];
 
     // Validate comment length.
-    if (strlen($content) > 255) {
+    if (strlen($content) > 255 ) {
         echo "Comment exceeds maximum allowed length of 255 characters.";
+        mysqli_close($link);
+        exit;
+    }
+
+    if (strlen(trim($content)) < 1 ) {
+        echo "Cannot submit empty comment";
         mysqli_close($link);
         exit;
     }
